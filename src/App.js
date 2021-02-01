@@ -1,6 +1,7 @@
 import { useState}  from 'react' 
 import Header from './components/Header'
 import Tasks from './components/Tasks'
+import AddTask from './components/AddTask'
 
  
  
@@ -26,18 +27,36 @@ const App= () => {
     },
 ])  
 
+//Function to Add Task 
+const addTask = ({ task }) => {
+   console.log(task)
+ }
+
+
 //Function to Delete a Task 
 const deleteTask = (id) => {
  setTasks(tasks.filter((task) => task.id !== id))
+}
+
+//  Functiion to Toggle Reminder - double click to call this 
+//  function and changes reminder from opposite (true, to false) 
+const toggleReminder = (id) => {
+    setTasks(tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder} : task
+    )
+  )
 }
 
 
   return (
     <div className="container">
       <Header />
+      <AddTask onAdd= {addTask}/>
+
+
+      {/* If you clear all tasks aka 0-tasks, you are rewarded */}
       {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} />
-      ) : ('Congrats, you knocked out your TODO List')}
+      <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder}/>
+      ) : ('Congrats, you knocked out your TODO List - You are amazing!')}
     </div>
 
   )
