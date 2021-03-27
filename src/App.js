@@ -6,6 +6,7 @@ import AddTask from './components/AddTask'
  
  
 const App= () => {
+  const [showAddTask, setShowAddTask] = useState (false)
   const [tasks, setTasks] = useState([
     {
         id: 1,
@@ -28,8 +29,10 @@ const App= () => {
 ])  
 
 //Function to Add Task 
-const addTask = ({ task }) => {
-   console.log(task)
+const addTask = (task) => {
+   const id = Math.floor(Math.random() * 10000) + 1
+   const newTask = {id, ...task}
+   setTasks([...tasks, newTask])
  }
 
 
@@ -49,8 +52,8 @@ const toggleReminder = (id) => {
 
   return (
     <div className="container">
-      <Header />
-      <AddTask onAdd= {addTask}/>
+      <Header onAdd={() => setShowAddTask (!showAddTask)}/>
+     {showAddTask && <AddTask onAdd= {addTask}/>}
 
 
       {/* If you clear all tasks aka 0-tasks, you are rewarded */}
